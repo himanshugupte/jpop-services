@@ -41,6 +41,10 @@ public class BookService {
 		book.setBookCategory(bookCategoryRepository.getById(1L));
 		return bookRepository.save(book);
 	}
+
+	public void deleteUserById(long id) {
+		this.bookCategoryRepository.deleteById(id);
+	}
 	
 	
 

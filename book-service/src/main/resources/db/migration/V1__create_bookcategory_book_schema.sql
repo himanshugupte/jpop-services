@@ -1,12 +1,4 @@
 -- -----------------------------------------------------
--- Schema book-service
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `book-service`;
-
-CREATE SCHEMA `book-service`;
-USE `book-service` ;
-
--- -----------------------------------------------------
 -- Table `book-service`.`book_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `book-service`.`book_category` (
@@ -42,21 +34,3 @@ AUTO_INCREMENT = 1;
 -- -----------------------------------------------------
 
 INSERT INTO book_category(category_name) VALUES ('PROGRAMMING');
-
-INSERT INTO book (name, description, image_url, active, units_in_stock,
-category_id, date_created)
-VALUES ('JavaScript - The Fun Parts', 'Learn JavaScript',
-'assets/images/books/placeholder.png'
-,1,100,1, NOW());
-
-INSERT INTO book (name, description, image_url, active, units_in_stock,
-category_id, date_created)
-VALUES ('Spring Framework Tutorial', 'Learn Spring',
-'assets/images/books/placeholder.png'
-,1,100,1, NOW());
-
-INSERT INTO book (name, description, image_url, active, units_in_stock,
-category_id, date_created)
-VALUES ('Kubernetes - Deploying Containers', 'Learn Kubernetes',
-'assets/images/books/placeholder.png'
-,1,100,1, NOW());

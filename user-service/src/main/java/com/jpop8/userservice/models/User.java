@@ -2,84 +2,55 @@ package com.jpop8.userservice.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "users")
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
-	private String name;
+	@Column(name = "first_name")
+	private String firstName;
 
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Column(name = "email")
 	private String email;
 
-	private String imageUrl;
-
+	@Column(name = "active")
 	private boolean active;
 
+	@Column(name = "date_created")
+	@CreationTimestamp
 	private Date dateCreated;
 
+	@Column(name = "last_updated")
+	@UpdateTimestamp
 	private Date lastUpdated;
 
 	public User() {
 	}
 
-	public User(Long id, String name, String email) {
-		this.id = id;
-		this.name = name;
+	public User(String firstName, String lastName, String email, boolean active) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
 	}
 
 }

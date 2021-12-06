@@ -1,52 +1,57 @@
 package com.jpop8.userservice.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.jpop8.userservice.exceptions.ResourceNotFoundException;
 import com.jpop8.userservice.models.User;
+import com.jpop8.userservice.repository.UserRepository;
 
 @Service
 public class UserService {
 
-	List<User> users = new ArrayList<>(Arrays.asList(new User(1L, "Himanshu Gupte", "himanshu@email.com"),
-			new User(2L, "John Doe", "john@email.com")));
+	private UserRepository userRepository;
+
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	public List<User> getAllUsers(String name) {
 		if (name == null) {
-			return users;
+			return this.userRepository.findAll();
 		} else {
-			return users.stream().filter(user -> user.getName().toLowerCase().contains(name.toLowerCase()))
-					.collect(Collectors.toList());
+			return this.userRepository.findByFirstNameContaining(name);
 		}
 	}
 
 	public User getUserById(Long id) {
-		return users.stream().filter(user -> user.getId().equals(id)).findFirst()
-				.orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+		return this.userRepository.getById(id);
 	}
 
 	public User createUser(User user) {
-		if (user != null && user.getId() == null) {
-			user.setId(users.get(users.size() - 1).getId() + 1);
-			user.setDateCreated(new Date());
-			users.add(user);
+		if (user == null) {
+			throw new IllegalArgumentException();
 		}
-		return user;
+		User _user = new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.isActive());
+		return this.userRepository.save(_user);
 	}
 
 	public User updateUser(User user) {
-		User temp = getUserById(user.getId());
-		temp.setActive(user.isActive());
-		temp.setEmail(user.getEmail());
-		temp.setName(user.getName());
-		temp.setLastUpdated(new Date());
-		return temp;
+		User _user = this.userRepository.findById(user.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+		_user.setFirstName(user.getFirstName());
+		_user.setLastName(user.getLastName());
+		_user.setEmail(user.getEmail());
+		_user.setActive(user.isActive());
+		return this.userRepository.save(_user);
+
+	}
+
+	public void deleteUserById(long id) {
+		this.userRepository.deleteById(id);
 	}
 
 }
