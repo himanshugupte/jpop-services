@@ -16,6 +16,7 @@
 	<description>Spring book project for Book service</description>
 	<properties>
 		<java.version>11</java.version>
+		<project.springfox.version>2.9.2</project.springfox.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -52,13 +53,13 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
+			<version>${project.springfox.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
+			<version>${project.springfox.version}</version>
 		</dependency>
 
 		<dependency>

@@ -10,4 +10,5 @@ import com.jpop8.bookservice.models.Book;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 	public List<Book> findByNameContaining(String name);
+	public List<Book> findByTagsContaining(String tags);
 }
