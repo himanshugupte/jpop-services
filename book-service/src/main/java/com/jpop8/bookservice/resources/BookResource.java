@@ -1,7 +1,6 @@
 package com.jpop8.bookservice.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jpop8.bookservice.exceptions.ResourceNotFoundException;
 import com.jpop8.bookservice.models.Book;
 import com.jpop8.bookservice.services.BookService;
 
@@ -33,26 +31,32 @@ public class BookResource {
 		this.bookService = bookService;
 	}
 
-	@GetMapping
+	@GetMapping("/v1.0")
 	public ResponseEntity<List<Book>> getAllBooks(@RequestParam(required = false) String name) {
 		log.debug("Going to fetch books");
 		return new ResponseEntity<>(bookService.getAllBooks(name), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/v1.0/{id}")
 	public ResponseEntity<Book> getBookById(@PathVariable("id") Long id) {
 		log.debug("Going to fetch book by id: {}", id);
 		Book book = bookService.getBookById(id);
 		return new ResponseEntity<>(book, HttpStatus.OK);
 	}
+	
+	@GetMapping("/v1.0/tags/{tags}")
+	public ResponseEntity<List<Book>> getBookByTags(@PathVariable("tags") String tags) {
+		log.debug("Going to fetch book by tags: {}", tags);
+		return new ResponseEntity<>(bookService.getBookByTags(tags), HttpStatus.OK);
+	}
 
-	@PostMapping
+	@PostMapping("/v1.0")
 	public ResponseEntity<Book> createBook(@RequestBody Book book) {
 		log.debug("Going to create book: {}", book);
 		return new ResponseEntity<>(bookService.createBook(book), HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	@PutMapping("/v1.0")
 	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
 		log.debug("Going to update book by id: {}", book.getId());
 		bookService.getBookById(book.getId());
