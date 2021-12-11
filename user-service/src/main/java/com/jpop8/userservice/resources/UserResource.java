@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpop8.userservice.config.SwaggerConfig;
 import com.jpop8.userservice.models.User;
 import com.jpop8.userservice.services.UserService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/users")
+@Api(tags = {SwaggerConfig.USER_TAG})
 public class UserResource {
 
 	private UserService userService;
@@ -29,28 +34,33 @@ public class UserResource {
 		this.userService = userService;
 	}
 
-	@GetMapping
+	@GetMapping("/v1.0")
+	@ApiOperation(value = "View a list of users, pass '?name=' to filter by name")
 	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String name) {
 		return new ResponseEntity<>(userService.getAllUsers(name), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/v1.0/{id}")
+	@ApiOperation(value = "View a user by id")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
 		User user = userService.getUserById(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
-	@PostMapping
+	@PostMapping("/v1.0")
+	@ApiOperation(value = "Create a user")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	@PutMapping("/v1.0")
+	@ApiOperation(value = "Update a user")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/v1.0/{id}")
+	@ApiOperation(value = "Delete a user by id")
 	public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
 		try {
 			this.userService.deleteUserById(id);
