@@ -25,4 +25,15 @@ public class SwaggerConfig {
 				.apiInfo(new ApiInfoBuilder().version("1.0").title("Book API")
 						.description("Documentation Book API v1.0").build());
 	}
+	
+	@Bean
+	public Docket swaggerBookApi11() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("book-api-1.1").select()
+				.apis(RequestHandlerSelectors.basePackage("com.jpop8.bookservice.resources"))
+				.paths(regex("/books/v1.1.*"))
+				.build()
+				.tags(new Tag(BOOK_TAG, "Operations pertaining to books in JPoP"))
+				.apiInfo(new ApiInfoBuilder().version("1.1").title("Book API")
+						.description("Documentation Book API v1.1").build());
+	}
 }
